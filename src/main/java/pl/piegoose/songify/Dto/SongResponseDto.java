@@ -1,6 +1,5 @@
-package pl.piegoose.songify;
+package pl.piegoose.songify.Dto;
 
-import java.util.List;
 import java.util.Map;
 
 public record SongResponseDto(

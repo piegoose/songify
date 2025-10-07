@@ -1,9 +1,12 @@
-package pl.piegoose.songify;
+package pl.piegoose.songify.controllers;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.piegoose.songify.Dto.SingleSongResponseDto;
+import pl.piegoose.songify.Dto.SongRequestDto;
+import pl.piegoose.songify.Dto.SongResponseDto;
 
 import java.util.HashMap;
 import java.util.Map;
