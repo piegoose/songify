@@ -1,10 +1,14 @@
-package pl.piegoose.songify.song;
+package pl.piegoose.songify.song.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.piegoose.songify.song.dto.DeleteSongResponseDto;
+import pl.piegoose.songify.song.dto.SingleSongResponseDto;
+import pl.piegoose.songify.song.dto.SongRequestDto;
+import pl.piegoose.songify.song.dto.SongResponseDto;
 
 import java.util.HashMap;
 import java.util.Map;

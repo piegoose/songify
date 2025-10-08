@@ -1,4 +1,4 @@
-package pl.piegoose.songify.song;
+package pl.piegoose.songify.song.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

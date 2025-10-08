@@ -1,4 +1,4 @@
-package pl.piegoose.songify.song;
+package pl.piegoose.songify.song.dto;
 
 import java.util.Map;
 
