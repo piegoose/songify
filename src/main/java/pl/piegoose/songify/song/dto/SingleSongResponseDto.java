@@ -1,4 +1,4 @@
-package pl.piegoose.songify.Dto;
+package pl.piegoose.songify.song;
 
 public record SingleSongResponseDto(String song) {
 }

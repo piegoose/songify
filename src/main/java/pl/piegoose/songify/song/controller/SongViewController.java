@@ -1,4 +1,4 @@
-package pl.piegoose.songify.controllers;
+package pl.piegoose.songify.song;
 
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 ///  MVC
 @Controller
-public class SongsViewController {
+public class SongViewController {
 
     private Map<Integer, String> database = new HashMap<>();
 

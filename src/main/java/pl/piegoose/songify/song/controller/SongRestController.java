@@ -1,12 +1,10 @@
-package pl.piegoose.songify.controllers;
+package pl.piegoose.songify.song;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.piegoose.songify.Dto.SingleSongResponseDto;
-import pl.piegoose.songify.Dto.SongRequestDto;
-import pl.piegoose.songify.Dto.SongResponseDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @Log4j2
 
-public class SongsController {
+public class SongRestController {
 
     Map<Integer, String> database = new HashMap<>(Map.of(
             1, "Shawn Mendes - Song1",
@@ -68,5 +66,19 @@ public class SongsController {
         log.info("Song added" + songName);
         database.put(database.size() + 1, songName);
         return ResponseEntity.ok(new SingleSongResponseDto(songName));
+    }
+
+    @DeleteMapping("/song/{id}")
+    public ResponseEntity<DeleteSongResponseDto> deleteSongByIdUsingPathVariable(@PathVariable Integer id) {
+        if(!database.containsKey(id))
+        {
+            throw new RuntimeException("Song with id "+ id + "not found");
+        }
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body(new ErrorDeleteSongResponseDto("Song with id " + id + " not found ",HttpStatus.NOT_FOUND));}
+
+        database.remove(id);
+        return ResponseEntity.ok(new DeleteSongResponseDto("You deleted song with id: " + id,HttpStatus.OK));
+
     }
 }
