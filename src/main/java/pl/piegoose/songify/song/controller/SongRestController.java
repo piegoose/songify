@@ -9,6 +9,7 @@ import pl.piegoose.songify.song.dto.DeleteSongResponseDto;
 import pl.piegoose.songify.song.dto.SingleSongResponseDto;
 import pl.piegoose.songify.song.dto.SongRequestDto;
 import pl.piegoose.songify.song.dto.SongResponseDto;
+import pl.piegoose.songify.song.error.SongNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,15 +43,15 @@ public class SongRestController {
     @GetMapping("/songs/{id}")
     public ResponseEntity<SingleSongResponseDto> getSongById(@PathVariable Integer id, @RequestHeader(required = false) String requestId) {
         log.info(requestId);
-        String song = database.get(id);
-        if (song == null) {
-            return ResponseEntity.notFound().build();
+        if (!database.containsKey(id)){
+            throw new SongNotFoundException("Song with id " + id + " not found");
         }
+        String song = database.get(id);
         SingleSongResponseDto responseDto = new SingleSongResponseDto(song);
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("/songsbyparam")
+    @GetMapping("/songs/byparam")
     public ResponseEntity<SongResponseDto> getAllSongsParam(@RequestParam(required = false) Integer limit) {
         if (limit != null) {
             Map<Integer, String> limitedMap = database.entrySet()
@@ -76,7 +77,7 @@ public class SongRestController {
     public ResponseEntity<DeleteSongResponseDto> deleteSongByIdUsingPathVariable(@PathVariable Integer id) {
         if(!database.containsKey(id))
         {
-            throw new RuntimeException("Song with id "+ id + "not found");
+            throw new SongNotFoundException("Song with id "+ id + " not found");
         }
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND)
 //                    .body(new ErrorDeleteSongResponseDto("Song with id " + id + " not found ",HttpStatus.NOT_FOUND));}

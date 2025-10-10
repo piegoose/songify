@@ -1,4 +1,7 @@
-package pl.piegoose.songify.song.controller;
+package pl.piegoose.songify.song.error;
 
-public class SongNotFoundException {
+public class SongNotFoundException extends RuntimeException {
+    public SongNotFoundException(String message) {
+        super(message);
+    }
 }
