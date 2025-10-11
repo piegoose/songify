@@ -1,4 +1,6 @@
-package pl.piegoose.songify.song.dto;
+package pl.piegoose.songify.song.dto.response;
 
-public record SingleSongResponseDto(String song) {
+import pl.piegoose.songify.song.controller.Song;
+
+public record SingleSongResponseDto(Song song) {
 }

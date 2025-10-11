@@ -1,4 +1,6 @@
-package pl.piegoose.songify.song.controller;
+package pl.piegoose.songify.song.dto.response;
 
-public record PartiallyUpdateSongDto(String message) {
+import pl.piegoose.songify.song.controller.Song;
+
+public record PartiallyUpdateSongResponseDto(Song updatedSong){
 }

@@ -1,4 +1,7 @@
 package pl.piegoose.songify.song.controller;
 
-public record SongEntity() {
+import lombok.Builder;
+
+@Builder
+public record Song(String name, String artist) {
 }
