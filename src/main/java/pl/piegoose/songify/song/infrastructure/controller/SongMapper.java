@@ -1,17 +1,12 @@
-package pl.piegoose.songify.song.infrastructure.controller;
+package pl.piegoose.songify.song.infrastructure;
 
-import com.songify.song.domain.model.Song;
-import com.songify.song.infrastructure.controller.dto.request.CreateSongRequestDto;
-import com.songify.song.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
-import com.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
-import com.songify.song.infrastructure.controller.dto.response.CreateSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.DeleteSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.GetAllSongsResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.GetSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.PartiallyUpdateSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.UpdateSongResponseDto;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
+import pl.piegoose.songify.song.domain.model.Song;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.CreateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.response.*;
 
 public class SongMapper {
 
