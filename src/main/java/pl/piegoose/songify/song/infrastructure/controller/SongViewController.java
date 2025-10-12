@@ -1,4 +1,4 @@
-package pl.piegoose.songify.song.controller;
+package pl.piegoose.songify.song.infrastructure.controller;
 
 
 import org.springframework.stereotype.Controller;

@@ -1,16 +1,16 @@
-package pl.piegoose.songify.song.controller;
+package pl.piegoose.songify.song.infrastructure.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.piegoose.songify.song.dto.request.PartiallyUpdateSongRequestDto;
-import pl.piegoose.songify.song.dto.request.SongRequestDto;
-import pl.piegoose.songify.song.dto.request.UpdateSongRequestDto;
-
-import pl.piegoose.songify.song.dto.response.*;
-import pl.piegoose.songify.song.error.SongNotFoundException;
+import pl.piegoose.songify.song.domain.model.Song;
+import pl.piegoose.songify.song.domain.model.SongNotFoundException;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.CreateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
+import pl.piegoose.songify.song.infrastructure.controller.dto.response.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,38 +36,46 @@ public class SongRestController {
 
 
     @GetMapping
-    public ResponseEntity<SongResponseDto> getAllSongsParam(@RequestParam(required = false) Integer limit) {
+    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
         if (limit != null) {
             Map<Integer, Song> limitedMap = database.entrySet()
                     .stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            SongResponseDto responseDto = new SongResponseDto(limitedMap);
+            GetAllSongsResponseDto responseDto = new GetAllSongsResponseDto(limitedMap);
             return ResponseEntity.ok(responseDto);
         }
-        SongResponseDto responseDto = new SongResponseDto(database);
+        GetAllSongsResponseDto responseDto = new GetAllSongsResponseDto(database);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/songs/{id}")
-    public ResponseEntity<SingleSongResponseDto> getSongById(@PathVariable Integer id, @RequestHeader(required = false) String requestId) {
+    public ResponseEntity<GetSongResponseDto> getSongById(@PathVariable Integer id, @RequestHeader(required = false) String requestId) {
         log.info(requestId);
         if (!database.containsKey(id)) {
             throw new SongNotFoundException("Song with id " + id + " not found");
         }
         Song song = database.get(id);
-        SingleSongResponseDto responseDto = new SingleSongResponseDto(song);
+        GetSongResponseDto responseDto = new GetSongResponseDto(song);
         return ResponseEntity.ok(responseDto);
     }
 
 
     @PostMapping
-    public ResponseEntity<SingleSongResponseDto> postSong(@RequestBody @Valid SongRequestDto requestDto) {
-        Song song = new Song(requestDto.songName(), requestDto.artist());
+    public ResponseEntity<CreateSongResponseDto> postSong(@RequestBody @Valid CreateSongRequestDto request) {
+        // 1. Mappowanie z CreateSongRequestDto na obiekt Domenowy (Song)
+        Song song = SongMapper.mapFromCreateSongRequestDtoToSong(request);
+        // 2. Warstwa logiki biznesowej / serwisow domenowych: wysiwetlamy infromacje
         log.info("Song added" + song);
+        // 3. Wasrtswe bazodanowa: zapisujemy do bazy danych
         database.put(database.size() + 1, song);
-        return ResponseEntity.ok(new SingleSongResponseDto(song));
+        // 4. mappowanie z obiektu domenowego (Song) na DTO Create Song Request Dto
+        CreateSongResponseDto body = SongMapper.mapFromSongToCreateResponseDto(song);
+        return ResponseEntity.ok(body);
     }
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSongResponseDto> deleteSongByIdUsingPathVariable(@PathVariable Integer id) {

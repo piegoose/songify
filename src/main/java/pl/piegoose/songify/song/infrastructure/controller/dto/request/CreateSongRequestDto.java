@@ -1,9 +1,9 @@
-package pl.piegoose.songify.song.dto.request;
+package pl.piegoose.songify.song.infrastructure.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record SongRequestDto(
+public record CreateSongRequestDto(
         @NotNull(message = "songName must be not null")
         @NotEmpty(message = "songName must be not empty") String songName,
         @NotNull(message = "artist must be not null")
