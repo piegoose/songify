@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pl.piegoose.songify.song.controller.SongRestController;
+import pl.piegoose.songify.song.infrastructure.controller.SongRestController;
 
 import java.util.List;
 import java.util.stream.Collectors;

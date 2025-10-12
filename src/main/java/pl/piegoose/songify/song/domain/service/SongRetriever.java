@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-public class SongRetriver {
+public class SongRetriever {
 
     private final SongRepository songRepository;
 
     @Autowired
-    public SongRetriver(SongRepository songRepository) {
+    public SongRetriever(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 

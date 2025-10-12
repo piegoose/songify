@@ -1,4 +1,4 @@
-package pl.piegoose.songify.song.infrastructure;
+package pl.piegoose.songify.song.infrastructure.controller;
 
 import java.util.Map;
 import org.springframework.http.HttpStatus;
