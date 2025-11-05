@@ -1,6 +1,8 @@
 package pl.piegoose.songify.song.domain.repository;
 
 
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,10 +16,14 @@ public interface SongRepository extends org.springframework.data.repository.Repo
 
     Song save(Song song);
 
-    List<Song> findAll();
+    @Query("SELECT s FROM Song s")
+    List<Song> findAll(Pageable pageable);
 
+    @Query("SELECT s From Song s where s.id = :id")
     Optional<Song> findSongById(Long id);
 
+    @Modifying
+    @Query("DELETE FROM Song s where  s.id = :id")
     void deleteById(Long id);
 
     @Modifying

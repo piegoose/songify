@@ -1,11 +1,16 @@
 package pl.piegoose.songify.song.domain.service;
 
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.piegoose.songify.song.domain.model.Song;
 import pl.piegoose.songify.song.domain.model.SongNotFoundException;
 import pl.piegoose.songify.song.domain.repository.SongRepository;
+
 
 import java.util.List;
 
@@ -20,21 +25,13 @@ public class  SongRetriever {
         this.songRepository = songRepository;
     }
 
-    public List<Song> findAll() {
+    public List<Song> findAll(Pageable pageable) {
 
         log.info("Retriving all songs: ");
-        return songRepository.findAll();
+        return songRepository.findAll(pageable);
 
     }
 
-    public List<Song> findfindAllLimitedBy(Integer limit) {
-
-        return songRepository.findAll()
-                .stream()
-                .limit(limit)
-                .toList();
-
-    }
 
     public Song findSongById(Long id) {
         return songRepository.findSongById(id)

@@ -13,21 +13,47 @@ import pl.piegoose.songify.song.domain.repository.SongRepository;
 @AllArgsConstructor
 public class SongUpdater {
     private final SongRetriever songRetriever;
+    private final SongRepository songRepository;
+
 
     public void updateById(Long id, Song newSong) {
-        Song songById = songRetriever.findSongById(id);
-        songById.setName(newSong.getName());
-        songById.setArtist(newSong.getArtist());
+        songRetriever.existById(id);
+        songRepository.updateById(id, newSong);
     }
 
     public Song updatePartiallyById(Long id, Song songFromRequest) {
         Song songFromDatabase = songRetriever.findSongById(id);
+        Song.SongBuilder builder = Song.builder();
         if (songFromRequest.getName() != null) {
-            songFromDatabase.setName(songFromRequest.getName());
+            builder.name(songFromRequest.getName());
+        } else {
+            builder.name(songFromDatabase.getName());
         }
         if (songFromRequest.getArtist() != null) {
-            songFromDatabase.setArtist(songFromRequest.getArtist());
+            builder.artist(songFromRequest.getArtist());
+        } else {
+            builder.artist(songFromDatabase.getArtist());
         }
-        return songFromDatabase;
+        Song toSave = builder.build();
+        updateById(id, toSave);
+        return toSave;
     }
+
+// Dirty checking version
+//    public void updateById(Long id, Song newSong) {
+//        Song songById = songRetriever.findSongById(id);
+//        songById.setName(newSong.getName());
+//        songById.setArtist(newSong.getArtist());
+//    }
+//
+//    public Song updatePartiallyById(Long id, Song songFromRequest) {
+//        Song songFromDatabase = songRetriever.findSongById(id);
+//        if (songFromRequest.getName() != null) {
+//            songFromDatabase.setName(songFromRequest.getName());
+//        }
+//        if (songFromRequest.getArtist() != null) {
+//            songFromDatabase.setArtist(songFromRequest.getArtist());
+//        }
+//        return songFromDatabase;
+//    }
 }

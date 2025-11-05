@@ -3,6 +3,8 @@ package pl.piegoose.songify.song.infrastructure.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.piegoose.songify.song.domain.model.Song;
@@ -14,6 +16,7 @@ import pl.piegoose.songify.song.infrastructure.controller.dto.request.CreateSong
 import pl.piegoose.songify.song.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
 import pl.piegoose.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
 import pl.piegoose.songify.song.infrastructure.controller.dto.response.*;
+
 
 import java.util.List;
 
@@ -31,14 +34,8 @@ public class SongRestController {
 
 
     @GetMapping
-    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limit) {
-        List<Song> allSongs = songRetriever.findAll();
-        if (limit != null) {
-
-            List<Song> limitedMap = songRetriever.findfindAllLimitedBy(limit);
-            GetAllSongsResponseDto response = new GetAllSongsResponseDto(limitedMap);
-            return ResponseEntity.ok(response);
-        }
+    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault(page = 0,size = 10)Pageable pageable) {
+        List<Song> allSongs = songRetriever.findAll(pageable);
         GetAllSongsResponseDto response = SongMapper.mapFromSongToGetAllSongsResponseDto(allSongs);
         return ResponseEntity.ok(response);
     }
