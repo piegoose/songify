@@ -20,8 +20,7 @@ public class SongAdder {
     public Song addSong(Song song) {
         log.info("adding new song: " + song);
         // zapytanie do serwisu songs.com/validate?songName=
-        songRepository.saveToDatabase(song);
-        return song;
+        return songRepository.save(song);
 
     }
 

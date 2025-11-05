@@ -4,14 +4,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.piegoose.songify.song.domain.model.Song;
+import pl.piegoose.songify.song.domain.model.SongNotFoundException;
 import pl.piegoose.songify.song.domain.repository.SongRepository;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Log4j2
 @Service
-public class SongRetriever {
+public class  SongRetriever {
 
     private final SongRepository songRepository;
 
@@ -20,21 +20,31 @@ public class SongRetriever {
         this.songRepository = songRepository;
     }
 
-    public Map<Integer, Song> findAll() {
+    public List<Song> findAll() {
 
-        log.info("retriving all songs: ");
+        log.info("Retriving all songs: ");
         return songRepository.findAll();
 
     }
 
-    public Map<Integer, Song> findfindAllLimitedBy(Integer limit) {
+    public List<Song> findfindAllLimitedBy(Integer limit) {
 
         return songRepository.findAll()
-                .entrySet()
                 .stream()
                 .limit(limit)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .toList();
 
     }
+
+    public Song findSongById(Long id) {
+        return songRepository.findSongById(id)
+                .orElseThrow(()-> new SongNotFoundException("SongNotFoundException while accessing song"));
+    }
+    public void existById (Long id) {
+        if(!songRepository.existsById(id)){
+            throw new SongNotFoundException("SongNotFoundException while accessing song");
+        }
+    }
+
 
 }

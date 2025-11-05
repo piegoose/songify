@@ -1,4 +1,28 @@
 package pl.piegoose.songify.song.domain.repository;
 
-public interface SongRepositoryInterface {
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import pl.piegoose.songify.song.domain.model.Song;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface SongRepository extends org.springframework.data.repository.Repository<Song, Long> {
+
+    Song save(Song song);
+
+    List<Song> findAll();
+
+    Optional<Song> findSongById(Long id);
+
+    void deleteById(Long id);
+
+    @Modifying
+    @Query("update Song s set s.name = :#{#newSong.name},s.artist = :#{#newSong.artist} where s.id=:id")
+    void updateById(Long id, Song newSong);
+
+    boolean existsById(Long id);
 }
