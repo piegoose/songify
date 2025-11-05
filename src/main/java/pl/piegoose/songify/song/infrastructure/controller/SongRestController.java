@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.piegoose.songify.song.domain.model.Song;
-import pl.piegoose.songify.song.domain.model.SongNotFoundException;
 import pl.piegoose.songify.song.domain.service.SongAdder;
 import pl.piegoose.songify.song.domain.service.SongDeleter;
 import pl.piegoose.songify.song.domain.service.SongRetriever;
@@ -78,27 +77,12 @@ public class SongRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PartiallyUpdateSongResponseDto> partiallyUpdateSong(@PathVariable Integer id,
+    public ResponseEntity<PartiallyUpdateSongResponseDto> partiallyUpdateSong(@PathVariable Long id,
                                                                               @RequestBody PartiallyUpdateSongRequestDto request) {
-        List<Song> allSongs = songRetriever.findAll();
-        if (!allSongs.contains(id)) {
-            throw new SongNotFoundException("Song with id " + id + " not found");
-        }
-        Song songFromDatabase = allSongs.get(id);
+
         Song updatedSong = SongMapper.mapFromPartiallyUpdateSongRequestDtoToSong(request);
-        Song.SongBuilder builder = Song.builder();
-        if (updatedSong.getName() != null) {
-            builder.name(updatedSong.getName());
-        } else {
-            builder.name(songFromDatabase.getName());
-        }
-        if (updatedSong.getArtist() != null) {
-            builder.artist(updatedSong.getArtist());
-        } else {
-            builder.artist(songFromDatabase.getArtist());
-        }
-        songAdder.addSong(updatedSong);
-        PartiallyUpdateSongResponseDto body = SongMapper.mapFromSongToPartiallyUpdateSongResponseDto(updatedSong);
+        Song savedSong = songUpdater.updatePartiallyById(id, updatedSong);
+        PartiallyUpdateSongResponseDto body = SongMapper.mapFromSongToPartiallyUpdateSongResponseDto(savedSong);
         return ResponseEntity.ok(body);
     }
 }
