@@ -1,0 +1,1 @@
+DROP SEQUENCE song_id_seq CASCADE;
