@@ -1,4 +1,4 @@
-package pl.piegoose.songify.domain.crud.genre;
+package pl.piegoose.songify.domain.crud.artist;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,14 +10,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.Instant;
+import pl.piegoose.songify.domain.crud.util.BaseEntity;
 
 @Entity
 @NoArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-class Artist {
+class Artist extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "artist_id_seq", strategy = GenerationType.SEQUENCE)
@@ -27,7 +26,6 @@ class Artist {
             allocationSize = 1
     )
     private Long id;
-    
     @Column(nullable = false)
     private String name;
     

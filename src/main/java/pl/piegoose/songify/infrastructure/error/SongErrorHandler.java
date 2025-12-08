@@ -2,12 +2,12 @@ package pl.piegoose.songify.infrastructure.crud.song.controller.error;
 
 
 import pl.piegoose.songify.domain.crud.song.SongNotFoundException;
-import pl.piegoose.songify.infrastructure.crud.song.controller.SongRestController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import pl.piegoose.songify.infrastructure.crud.song.controller.SongRestController;
 
 @RestControllerAdvice(assignableTypes = SongRestController.class)
 @Log4j2
