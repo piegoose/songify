@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.song.controller.dto.request;
+package pl.piegoose.songify.infrastructure.crud.song.dto.request;
 
 public record PartiallyUpdateSongRequestDto(
         String songName,

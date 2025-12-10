@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.song.controller.error;
+package pl.piegoose.songify.infrastructure.error;
 
 import org.springframework.http.HttpStatus;
 

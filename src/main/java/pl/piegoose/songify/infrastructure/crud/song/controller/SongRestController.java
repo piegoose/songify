@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.song.controller;
+package pl.piegoose.songify.infrastructure.controller;
 
 
 import jakarta.validation.Valid;
@@ -17,25 +17,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.piegoose.songify.domain.crud.song.SongCrudeFacade;
-import pl.piegoose.songify.domain.crud.song.dto.SongDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.CreateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.UpdateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.CreateSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.DeleteSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.GetSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.PartiallyUpdateSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.UpdateSongResponseDto;
+import pl.piegoose.songify.domain.crud.SongifyCrudeFacade;
+import pl.piegoose.songify.domain.crud.dto.SongDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.CreateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.PartiallyUpdateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.UpdateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.CreateSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.DeleteSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.GetAllSongsResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.GetSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.PartiallyUpdateSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.UpdateSongResponseDto;
+
 
 import java.util.List;
 
-import static pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongToCreateSongResponseDto;
-import static pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongToDeleteSongResponseDto;
-import static pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongToGetAllSongsResponseDto;
-import static pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongToGetSongResponseDto;
-import static pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongToUpdateSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromPartiallyUpdateSongRequestDtoToSong;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongDtoToPartiallyUpdateSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongToCreateSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongToDeleteSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongToGetAllSongsResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongToGetSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromSongToUpdateSongResponseDto;
+import static pl.piegoose.songify.infrastructure.controller.SongControllerMapper.mapFromUpdateSongRequestDtoToSongDto;
 
 
 @RestController
@@ -45,7 +49,7 @@ import static pl.piegoose.songify.infrastructure.crud.song.controller.SongContro
 public
 class SongRestController {
 
-    private final SongCrudeFacade songFacade;
+    private final SongifyCrudeFacade songFacade;
 
     @GetMapping
     ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault(page = 0, size = 10) Pageable pageable) {
@@ -64,7 +68,7 @@ class SongRestController {
 
     @PostMapping
     ResponseEntity<CreateSongResponseDto> postSong(@RequestBody @Valid CreateSongRequestDto request) {
-        SongDto songDto = pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromCreateSongRequestDtoToSongDto(request);
+        SongDto songDto = SongControllerMapper.mapFromCreateSongRequestDtoToSongDto(request);
         SongDto savedSong = songFacade.addSong(songDto);
         CreateSongResponseDto body = mapFromSongToCreateSongResponseDto(savedSong);
         return ResponseEntity.ok(body);
@@ -80,7 +84,7 @@ class SongRestController {
     @PutMapping("/{id}")
     ResponseEntity<UpdateSongResponseDto> update(@PathVariable Long id,
                                                  @RequestBody @Valid UpdateSongRequestDto request) {
-        SongDto newSongDto = pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromUpdateSongRequestDtoToSongDto(request);
+        SongDto newSongDto = mapFromUpdateSongRequestDtoToSongDto(request);
         songFacade.updateById(id, newSongDto);
         UpdateSongResponseDto body = mapFromSongToUpdateSongResponseDto(newSongDto);
         return ResponseEntity.ok(body);
@@ -89,9 +93,9 @@ class SongRestController {
     @PatchMapping("/{id}")
     ResponseEntity<PartiallyUpdateSongResponseDto> partiallyUpdateSong(@PathVariable Long id,
                                                                        @RequestBody PartiallyUpdateSongRequestDto request) {
-        SongDto updatedSong = pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromPartiallyUpdateSongRequestDtoToSong(request);
+        SongDto updatedSong = mapFromPartiallyUpdateSongRequestDtoToSong(request);
         SongDto savedSong = songFacade.updatePartiallyById(id, updatedSong);
-        PartiallyUpdateSongResponseDto body = pl.piegoose.songify.infrastructure.crud.song.controller.SongControllerMapper.mapFromSongDtoToPartiallyUpdateSongResponseDto(savedSong);
+        PartiallyUpdateSongResponseDto body = mapFromSongDtoToPartiallyUpdateSongResponseDto(savedSong);
         return ResponseEntity.ok(body);
     }
 }

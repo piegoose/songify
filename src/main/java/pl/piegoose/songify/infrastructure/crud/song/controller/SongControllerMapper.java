@@ -1,18 +1,18 @@
-package pl.piegoose.songify.infrastructure.crud.song.controller;
+package pl.piegoose.songify.infrastructure.controller;
 
 
 
 import org.springframework.http.HttpStatus;
-import pl.piegoose.songify.domain.crud.song.dto.SongDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.CreateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.request.UpdateSongRequestDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.CreateSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.DeleteSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.GetSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.PartiallyUpdateSongResponseDto;
-import pl.piegoose.songify.infrastructure.crud.song.controller.dto.response.UpdateSongResponseDto;
+import pl.piegoose.songify.domain.crud.dto.SongDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.CreateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.PartiallyUpdateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.request.UpdateSongRequestDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.CreateSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.DeleteSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.GetAllSongsResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.GetSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.PartiallyUpdateSongResponseDto;
+import pl.piegoose.songify.infrastructure.crud.song.dto.response.UpdateSongResponseDto;
 
 import java.util.List;
 
