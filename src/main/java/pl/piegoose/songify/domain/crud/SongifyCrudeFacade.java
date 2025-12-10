@@ -1,9 +1,9 @@
-package pl.piegoose.songify.domain.crud.song;
+package pl.piegoose.songify.domain.crud;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.piegoose.songify.domain.crud.song.dto.SongDto;
+import pl.piegoose.songify.domain.crud.dto.SongDto;
 
 import java.util.List;
 
