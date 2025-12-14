@@ -1,4 +1,4 @@
-package pl.piegoose.songify.domain.crud.song;
+package pl.piegoose.songify.domain.crud;
 
 enum SongLanguage {
     ENGLISH,

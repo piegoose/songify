@@ -1,6 +1,6 @@
-package pl.piegoose.songify.domain.crud;
+package pl.piegoose.songify.domain.crud.dto;
 
-record AlbumDto(
+public record AlbumDto(
         Long id,
         String name
 ) {

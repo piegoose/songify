@@ -1,4 +1,11 @@
-package pl.piegoose.songify.domain.crud;
+package pl.piegoose.songify.domain.crud.dto;
 
-record SongRequestDto() {
+import java.time.Instant;
+
+public record SongRequestDto(
+        String name,
+        Instant releaseDate,
+        Long duration,
+        SongLanguageDto language
+) {
 }

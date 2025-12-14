@@ -1,4 +1,10 @@
-package pl.piegoose.songify.domain.crud;
+package pl.piegoose.songify.domain.crud.dto;
 
-class AlbumRequestDto {
+import java.time.Instant;
+
+public record AlbumRequestDto(
+        String title,
+        Instant releaseDate,
+        Long songId
+) {
 }

@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.song.dto.request;
+package pl.piegoose.songify.infrastructure.crud.song.controller.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

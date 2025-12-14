@@ -1,4 +1,6 @@
-package pl.piegoose.songify.domain.crud;
+package pl.piegoose.songify.domain.crud.dto;
 
-record GenreDto() {
+public record GenreDto(Long id,
+        String name
+) {
 }

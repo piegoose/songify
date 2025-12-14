@@ -1,4 +1,4 @@
-package pl.piegoose.songify.domain.crud.song.dto;
+package pl.piegoose.songify.domain.crud.dto;
 
 import lombok.Builder;
 

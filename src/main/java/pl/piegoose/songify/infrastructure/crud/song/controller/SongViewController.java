@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.controller;
+package pl.piegoose.songify.infrastructure.crud.song.controller;
 
 import java.util.HashMap;
 import java.util.Map;

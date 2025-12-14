@@ -1,4 +1,7 @@
 package pl.piegoose.songify.infrastructure.apivalidation;
 
-class Api {
+import java.util.List;
+import org.springframework.http.HttpStatus;
+
+record ApiValidationErrorResponseDto(List<String> errors, HttpStatus status) {
 }

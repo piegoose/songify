@@ -1,4 +1,4 @@
-package pl.piegoose.songify.domain.crud.song;
+package pl.piegoose.songify.domain.crud;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.song.dto.response;
+package pl.piegoose.songify.infrastructure.crud.song.controller.dto.response;
 
 import org.springframework.http.HttpStatus;
 
