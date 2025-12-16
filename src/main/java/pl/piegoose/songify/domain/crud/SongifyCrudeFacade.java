@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.piegoose.songify.domain.crud.dto.AlbumDto;
+import pl.piegoose.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
 import pl.piegoose.songify.domain.crud.dto.AlbumRequestDto;
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 import pl.piegoose.songify.domain.crud.dto.ArtistRequestDto;
@@ -29,6 +30,12 @@ public class SongifyCrudeFacade {
     private final GenreAdder genreAdder;
     private final AlbumAdder albumAdder;
     private final ArtistRetriever artistRetriever;
+    private final AlbumRepository albumRepository;
+    private final AlbumRetriever albumRetriever;
+
+    public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id){
+        return albumRetriever.findAlbumByIdWithArtistsAndSongs(id);
+    }
 
     public ArtistDto addArtist(ArtistRequestDto dto) {
         return artistAdder.addArtist(dto.name());

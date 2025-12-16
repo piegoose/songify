@@ -3,6 +3,7 @@ package pl.piegoose.songify.domain.crud;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import pl.piegoose.songify.domain.crud.dto.GenreDto;
 import pl.piegoose.songify.domain.crud.dto.SongDto;
 import pl.piegoose.songify.domain.crud.dto.SongLanguageDto;
 import pl.piegoose.songify.domain.crud.dto.SongRequestDto;
@@ -22,6 +23,6 @@ class SongAdder {
         Song song = new Song(songDto.name(), songDto.releaseDate(), songDto.duration(), songLanguage);
         log.info("adding new song: " + songDto);
         songRepository.save(song);
-        return new SongDto(song.getId(), song.getName());
+        return new SongDto(song.getId(), song.getName(),new GenreDto(song.getGenre().getId(),song.getGenre().getName()));
     }
 }
