@@ -8,6 +8,7 @@ import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 import pl.piegoose.songify.domain.crud.dto.GenreDto;
 import pl.piegoose.songify.domain.crud.dto.SongDto;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,5 +43,16 @@ class AlbumRetriever {
         return new AlbumDtoWithArtistsAndSongs(
                 albumDto, artistDto, songsDto
         );
+    }
+
+    Set<Album> findAlbumsByArtistId(final Long artistId) {
+        return albumRepository.findAllAlbumsByArtistsId(artistId);
+    }
+
+    Album findById(final Long albumId) {
+        final Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new AlbumNotFoundException("Album was not found"));
+        return album;
+
     }
 }

@@ -1,5 +1,6 @@
 package pl.piegoose.songify.domain.crud;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,7 +44,7 @@ class Song extends BaseEntity {
 
     private Long duration;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private Genre genre;
 
     @Enumerated(EnumType.STRING)
