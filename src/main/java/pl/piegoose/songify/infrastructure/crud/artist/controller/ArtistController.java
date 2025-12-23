@@ -1,9 +1,11 @@
 package pl.piegoose.songify.infrastructure.crud.artist;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +36,7 @@ class ArtistController {
         Set<ArtistDto> artists = songifyCrudeFacade.findAllArtist();
         return ResponseEntity.ok(new AllArtistsDto(artists));
     }
+
     @DeleteMapping("/{artistsId}")
     ResponseEntity<String> deleteArtistsWithAllAlbumsAndSongs(@PathVariable Long artistsId) {
         songifyCrudeFacade.deleteArtistByIdWithartistsAndSongs(artistsId);
@@ -41,9 +44,15 @@ class ArtistController {
     }
 
     @PutMapping("/{artistsId}/{albumId}")
-    ResponseEntity<String> addArtistsToAlbum(@PathVariable Long artistsId,Long albumId) {
-        songifyCrudeFacade.addArtistsToAlbum(artistsId,albumId);
-        return ResponseEntity.ok("Artist with id: "+artistsId+" assingned to album with id: "+albumId+" :)");
+    ResponseEntity<String> addArtistsToAlbum(@PathVariable Long artistsId, Long albumId) {
+        songifyCrudeFacade.addArtistsToAlbum(artistsId, albumId);
+        return ResponseEntity.ok("Artist with id: " + artistsId + " assingned to album with id: " + albumId + " :)");
     }
 
+    @PatchMapping("/{artistsId}")
+    ResponseEntity<ArtistDto> updateArtistsName(@PathVariable Long artistsId,
+                                                @Valid @RequestBody ArtistUpdateRequestDto artistUpdateRequestDto) {
+        ArtistDto artistDto = songifyCrudeFacade.updateArtistNameById(artistsId, artistUpdateRequestDto.newArtistsName());
+        return ResponseEntity.ok(artistDto);
+    }
 }
