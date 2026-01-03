@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.artist;
+package pl.piegoose.songify.infrastructure.crud.artist.dto;
 
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 

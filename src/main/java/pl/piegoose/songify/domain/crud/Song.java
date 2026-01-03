@@ -9,8 +9,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +24,18 @@ import java.time.Instant;
 
 @Builder
 @Getter
-@Entity
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(
+       name = "song",
+        indexes = @Index(
+                name = "idx_song_name",
+                columnList = "name"
+        )
+
+)
 class Song extends BaseEntity {
 
     @Id

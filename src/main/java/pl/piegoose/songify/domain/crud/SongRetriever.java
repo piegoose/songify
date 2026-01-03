@@ -16,7 +16,6 @@ import java.util.List;
 class SongRetriever {
 
     private final SongRepository songRepository;
-    private final SongAdder songAdder;
 
     List<SongDto> findAll(Pageable pageable) {
         log.info("retrieving all songs: ");

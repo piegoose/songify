@@ -1,5 +1,6 @@
 package pl.piegoose.songify.domain.crud;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ class Artist extends BaseEntity {
         this.name = name;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Set<Album> albums = new HashSet<>();
 
     void removeAlbums(Album album) {

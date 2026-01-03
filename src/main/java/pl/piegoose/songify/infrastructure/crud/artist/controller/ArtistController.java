@@ -1,4 +1,4 @@
-package pl.piegoose.songify.infrastructure.crud.artist;
+package pl.piegoose.songify.infrastructure.crud.artist.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.piegoose.songify.domain.crud.SongifyCrudeFacade;
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 import pl.piegoose.songify.domain.crud.dto.ArtistRequestDto;
+import pl.piegoose.songify.infrastructure.crud.artist.dto.AllArtistsDto;
+import pl.piegoose.songify.infrastructure.crud.artist.dto.ArtistUpdateRequestDto;
+
 
 import java.util.Set;
 
@@ -55,4 +58,12 @@ class ArtistController {
         ArtistDto artistDto = songifyCrudeFacade.updateArtistNameById(artistsId, artistUpdateRequestDto.newArtistsName());
         return ResponseEntity.ok(artistDto);
     }
+    @PostMapping("/album/song")
+    ResponseEntity<ArtistDto> addArtistWithDefaultAlbumAndSong(@RequestBody ArtistRequestDto artistRequestDto){
+        ArtistDto artistDto = songifyCrudeFacade.addArtistsWithDefaultAlbumAndSong(artistRequestDto);
+        return ResponseEntity.ok(artistDto);
+    }
+
+
+
 }

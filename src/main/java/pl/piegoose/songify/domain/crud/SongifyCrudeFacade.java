@@ -34,6 +34,15 @@ public class SongifyCrudeFacade {
     private final AlbumRetriever albumRetriever;
     private final ArtistDeleter artistDeleter;
     private final ArtistAssingner artistAssingner;
+    private final ArtistUpdater artistUpdater;
+
+    public ArtistDto addArtistsWithDefaultAlbumAndSong(ArtistRequestDto dto) {
+        return artistAdder.addArtistWithDefaultAlbumAndSong(dto);
+    }
+
+    public ArtistDto updateArtistNameById(Long artistId, String name) {
+        return artistUpdater.updateArtistNameById(artistId, name);
+    }
 
     public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id) {
         return albumRetriever.findAlbumByIdWithArtistsAndSongs(id);
@@ -51,8 +60,8 @@ public class SongifyCrudeFacade {
         return albumAdder.addAlbum(dto.songId(), dto.title(), dto.releaseDate());
     }
 
-    public void addArtistsToAlbum(Long artistsId, Long albumId){
-        artistAssingner.addArtistToAlbum(artistsId,albumId);
+    public void addArtistsToAlbum(Long artistsId, Long albumId) {
+        artistAssingner.addArtistToAlbum(artistsId, albumId);
 
     }
 

@@ -14,8 +14,6 @@ class SongDeleter {
     private final SongRepository songRepository;
     private final SongRetriever songRetriever;
     private final GenreDeleter genreDeleter;
-    private final SongUpdater songUpdater;
-
     void deleteById(Long id) {
         log.info("deleting song by id: " + id);
         songRepository.deleteById(id);
