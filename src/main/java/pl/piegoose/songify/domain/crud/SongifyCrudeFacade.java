@@ -30,7 +30,6 @@ public class SongifyCrudeFacade {
     private final GenreAdder genreAdder;
     private final AlbumAdder albumAdder;
     private final ArtistRetriever artistRetriever;
-    private final AlbumRepository albumRepository;
     private final AlbumRetriever albumRetriever;
     private final ArtistDeleter artistDeleter;
     private final ArtistAssingner artistAssingner;
@@ -74,7 +73,7 @@ public class SongifyCrudeFacade {
 
     }
 
-    public void deleteArtistByIdWithartistsAndSongs(Long artistId) {
+    public void deleteArtistByIdWithArtistsAndSongs(Long artistId) {
         artistDeleter.deleteArtistByIdWithArtistsAndSongs(artistId);
     }
 

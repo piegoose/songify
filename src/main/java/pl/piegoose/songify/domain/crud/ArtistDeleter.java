@@ -15,9 +15,8 @@ class ArtistDeleter {
     private final ArtistRetriever artistRetriever;
     private final AlbumRetriever albumRetriever;
     private final AlbumDeleter albumDeleter;
-    private final SongDeleter songDeleter;
     private final AlbumRepository albumRepository;
-
+    private final SongDeleter songDeleter;
     void deleteArtistByIdWithArtistsAndSongs(final Long artistId) {
         Artist artist = artistRetriever.findById(artistId);
         Set<Album> artistAlbums = albumRetriever.findAlbumsByArtistId(artist.getId());
