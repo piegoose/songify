@@ -1,10 +1,12 @@
 package pl.piegoose.songify.domain.crud;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 class InMemoryArtistRepository implements ArtistRepository {
 
@@ -21,7 +23,7 @@ class InMemoryArtistRepository implements ArtistRepository {
 
     @Override
     public Set<Artist> findAll() {
-        return Set.of();
+        return new HashSet<>(db.values());
     }
 
     @Override
