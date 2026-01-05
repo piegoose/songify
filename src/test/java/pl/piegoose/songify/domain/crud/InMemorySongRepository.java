@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-class InMemorySongRepository implements SongRepository {
+public class InMemorySongRepository implements SongRepository {
     @Override
     public List<Song> findAll(final Pageable pageable) {
         return List.of();
