@@ -37,13 +37,13 @@ class ArtistController {
 
     @GetMapping
     ResponseEntity<AllArtistsDto> getArtist() {
-        Set<ArtistDto> artists = songifyCrudeFacade.findAllArtist(Pageable.unpaged());
+        Set<ArtistDto> artists = songifyCrudeFacade.findAllArtists(Pageable.unpaged());
         return ResponseEntity.ok(new AllArtistsDto(artists));
     }
 
     @DeleteMapping("/{artistsId}")
     ResponseEntity<String> deleteArtistsWithAllAlbumsAndSongs(@PathVariable Long artistsId) {
-        songifyCrudeFacade.deleteArtistByIdWithArtistsAndSongs(artistsId);
+        songifyCrudeFacade.deleteArtistByIdWithAlbumsAndSongs(artistsId);
         return ResponseEntity.ok("Propably all deleteted :) ");
     }
 

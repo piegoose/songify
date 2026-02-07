@@ -18,13 +18,13 @@ import pl.piegoose.songify.domain.crud.util.BaseEntity;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
 class Album extends BaseEntity {
-
     @Id
     @GeneratedValue(generator = "album_id_seq", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
@@ -38,27 +38,33 @@ class Album extends BaseEntity {
 
     private Instant releaseDate;
 
-
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "album_id")
     private Set<Song> songs = new HashSet<>();
 
-
-
     @ManyToMany(mappedBy = "albums")
     private Set<Artist> artists = new HashSet<>();
-
 
     void addSongToAlbum(final Song song) {
         songs.add(song);
     }
 
-    void removeArtists(Artist artist) {
+    void addSongsToAlbum(final Set<Song> songs) {
+        this.songs.addAll(songs);
+    }
+
+    void removeArtist(Artist artist) {
         artists.remove(artist);
-        artist.removeAlbums(this);
+        artist.removeAlbum(this);
     }
 
     void addArtist(final Artist artist) {
         artists.add(artist);
+    }
+
+    public Set<Long> getSongsIds() {
+        return this.songs.stream()
+                .map(Song::getId)
+                .collect(Collectors.toSet());
     }
 }

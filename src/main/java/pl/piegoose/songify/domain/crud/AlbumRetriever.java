@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.piegoose.songify.domain.crud.dto.AlbumDto;
 import pl.piegoose.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
+
+import pl.piegoose.songify.domain.crud.dto.AlbumInfo;
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 import pl.piegoose.songify.domain.crud.dto.GenreDto;
 import pl.piegoose.songify.domain.crud.dto.SongDto;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,41 +19,49 @@ class AlbumRetriever {
 
     private final AlbumRepository albumRepository;
 
-    AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(final Long id) {
-        Album album = albumRepository.findByIdAndSongsAndArtists(id)
-                .orElseThrow(() -> new AlbumNotFoundException("Album with id: " + id + " not found.."));
+    AlbumInfo findAlbumByIdWithArtistsAndSongs(final Long id) {
+        return albumRepository.findAlbumByIdWithSongsAndArtists(id)
+                .orElseThrow(() -> new AlbumNotFoundException("Album with id: " + id + " not found"));
+    }
 
-        Set<Artist> artists = album.getArtists();
-        Set<Song> songs = album.getSongs();
 
-        AlbumDto albumDto = new AlbumDto(album.getId(), album.getTitle());
 
-        Set<ArtistDto> artistDto = artists.stream()
-                .map(artist -> new ArtistDto(
-                        artist.getId(),
-                        artist.getName()
-                ))
-                .collect(Collectors.toSet());
-        Set<SongDto> songsDto = songs.stream()
-                .map(song -> new SongDto(
-                        song.getId(),
-                        song.getName(), new GenreDto(song.getId(), song.getName())
-                ))
-                .collect(Collectors.toSet());
-
-        return new AlbumDtoWithArtistsAndSongs(
-                albumDto, artistDto, songsDto
-        );
+    long countArtistsByAlbumId(final Long id) {
+        return findById(id)
+                .getArtists()
+                .size();
     }
 
     Set<Album> findAlbumsByArtistId(final Long artistId) {
-        return albumRepository.findAllAlbumsByArtistsId(artistId);
+        return albumRepository.findAllAlbumsByArtistId(artistId);
+    }
+
+    Set<AlbumDto> findAlbumsDtoByArtistId(final Long artistId) {
+        return findAlbumsByArtistId(artistId).stream()
+                .map(album -> new AlbumDto(album.getId(), album.getTitle(), album.getSongsIds()))
+                .collect(Collectors.toSet());
     }
 
     Album findById(final Long albumId) {
-        final Album album = albumRepository.findById(albumId)
-                .orElseThrow(() -> new AlbumNotFoundException("Album was not found"));
-        return album;
+        return albumRepository.findById(albumId)
+                .orElseThrow(
+                        () -> new AlbumNotFoundException("Album with id: " + albumId + " not found")
+                );
+    }
 
+    AlbumDto findDtoById(final Long albumId) {
+        Album album = findById(albumId);
+        return new AlbumDto(
+                album.getId(),
+                album.getTitle(),
+                album.getSongsIds()
+        );
+    }
+
+    Set<AlbumDto> findAll() {
+        return albumRepository.findAll()
+                .stream()
+                .map(album -> new AlbumDto(album.getId(), album.getTitle(), album.getSongsIds()))
+                .collect(Collectors.toSet());
     }
 }

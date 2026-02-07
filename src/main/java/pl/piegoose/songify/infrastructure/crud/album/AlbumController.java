@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.piegoose.songify.domain.crud.SongifyCrudeFacade;
 import pl.piegoose.songify.domain.crud.dto.AlbumDto;
+
 import pl.piegoose.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
+import pl.piegoose.songify.domain.crud.dto.AlbumInfo;
 import pl.piegoose.songify.domain.crud.dto.AlbumRequestDto;
 
 @AllArgsConstructor
@@ -27,8 +29,8 @@ class AlbumController {
     }
 
     @GetMapping("/{albumId}")
-    ResponseEntity<AlbumDtoWithArtistsAndSongs> getAlbumWithArtistsAndSongs(@PathVariable Long albumId){
-        AlbumDtoWithArtistsAndSongs albumByIdWithArtistsAndSongs = songifyCrudeFacade.findAlbumByIdWithArtistsAndSongs(albumId);
+    ResponseEntity<AlbumInfo> getAlbumWithArtistsAndSongs(@PathVariable Long albumId) {
+        AlbumInfo albumByIdWithArtistsAndSongs = songifyCrudeFacade.findAlbumByIdWithArtistsAndSongs(albumId);
         return ResponseEntity.ok(albumByIdWithArtistsAndSongs);
     }
 

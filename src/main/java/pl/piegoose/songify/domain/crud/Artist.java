@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AccessLevel;
@@ -31,23 +33,25 @@ class Artist extends BaseEntity {
             allocationSize = 1
     )
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Album> albums = new HashSet<>();
 
     Artist(final String name) {
         this.name = name;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    private Set<Album> albums = new HashSet<>();
-
-    void removeAlbums(Album album) {
+    void removeAlbum(Album album) {
         albums.remove(album);
+//        album.removeArtist(this);
     }
 
     void addAlbum(final Album album) {
         albums.add(album);
         album.addArtist(this);
-
     }
 }
+

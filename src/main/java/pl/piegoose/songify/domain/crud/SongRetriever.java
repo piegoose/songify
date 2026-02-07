@@ -19,6 +19,8 @@ class SongRetriever {
 
     List<SongDto> findAll(Pageable pageable) {
         log.info("retrieving all songs: ");
+        log.info("SongRetriever repo instance: {}",
+                System.identityHashCode(songRepository));
 //        return songRepository.findAll(pageable)
 //                .stream()
 //                .map(song -> SongDto.builder()
@@ -26,7 +28,6 @@ class SongRetriever {
 //                        .name(song.getName())
 //                        .build())
 //                .toList();
-
         List<SongDto> songDtoList = new ArrayList<>();
         List<Song> songs = songRepository.findAll(pageable);
 
@@ -48,7 +49,11 @@ class SongRetriever {
         return songRepository.findById(id)
                 .map(song -> SongDto.builder()
                         .id(song.getId())
-                        .name((song.getName()))
+                        .name(song.getName())
+                        .genre(new GenreDto(
+                                song.getGenre().getId(),
+                                song.getGenre().getName()
+                        ))
                         .build())
                 .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found"));
     }

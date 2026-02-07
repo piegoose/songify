@@ -2,25 +2,34 @@ package pl.piegoose.songify.domain.crud;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemorySongRepository implements SongRepository {
+class InMemorySongRepository implements SongRepository {
+    Map<Long, Song> db = new HashMap<>();
+    AtomicInteger index = new AtomicInteger(0);
+
     @Override
     public List<Song> findAll(final Pageable pageable) {
-        return List.of();
+        return new ArrayList<>(db.values());
     }
 
     @Override
     public Optional<Song> findById(final Long id) {
-        return Optional.empty();
+        Song value = db.get(id);
+        return Optional.ofNullable(value);
     }
 
     @Override
     public void deleteById(final Long id) {
 
     }
+
 
     @Override
     public void updateById(final Long id, final Song newSong) {
@@ -29,7 +38,11 @@ public class InMemorySongRepository implements SongRepository {
 
     @Override
     public Song save(final Song song) {
-        return null;
+        long id = this.index.incrementAndGet(); // 1,2,3...
+        song.setId(id);
+        song.setGenre(new Genre("DEFAULT", 1L));
+        db.put(id, song);
+        return song;
     }
 
     @Override
@@ -39,6 +52,9 @@ public class InMemorySongRepository implements SongRepository {
 
     @Override
     public int deleteByIdIn(final Collection<Long> ids) {
+        ids.forEach(
+                id->db.remove(id)
+        );
         return 0;
     }
 }

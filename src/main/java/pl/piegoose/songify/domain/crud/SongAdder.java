@@ -14,14 +14,16 @@ import pl.piegoose.songify.domain.crud.dto.SongRequestDto;
 class SongAdder {
 
     private final SongRepository songRepository;
-
+    private final GenreAssigner genreAssigner;
     SongDto addSong(final SongRequestDto songDto) {
         SongLanguageDto language = songDto.language();
         SongLanguage songLanguage = SongLanguage.valueOf(language.name());
         Song song = new Song(songDto.name(), songDto.releaseDate(), songDto.duration(), songLanguage);
-        log.info("adding new song: " + songDto);
-        songRepository.save(song);
-        return new SongDto(song.getId(), song.getName(), new GenreDto(song.getGenre().getId(), song.getGenre().getName()));
+        log.info("adding new song: " + song);
+        log.info("SongAdder repo instance: {}", System.identityHashCode(songRepository));
+        Song save = songRepository.save(song);
+        genreAssigner.assignDefaultGenreToSong(song.getId());
+        return new SongDto(save.getId(), save.getName(), new GenreDto(save.getGenre().getId(), save.getGenre().getName()));
     }
 
     Song addSongAndGetEntity(final SongRequestDto songRequestDto) {

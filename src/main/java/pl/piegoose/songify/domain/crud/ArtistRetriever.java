@@ -1,6 +1,7 @@
 package pl.piegoose.songify.domain.crud;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 
@@ -12,19 +13,18 @@ import java.util.stream.Collectors;
 class ArtistRetriever {
 
     private final ArtistRepository artistRepository;
-    Set<ArtistDto> findAllArtists() {
-       return artistRepository.findAll()
+
+    Set<ArtistDto> findAllArtists(Pageable pageable) {
+        return artistRepository.findAll(pageable)
                 .stream()
                 .map(artist -> new ArtistDto(
                         artist.getId(),
-                        artist.getName()
-                ))
+                        artist.getName()))
                 .collect(Collectors.toSet());
     }
 
     Artist findById(final Long artistId) {
-        final Artist artist = artistRepository.findById(artistId)
-                .orElseThrow(() -> new ArtisNotFoundException(artistId.toString()));
-        return artist;
+        return artistRepository.findById(artistId)
+                .orElseThrow(() -> new ArtistNotFoundException(artistId.toString()));
     }
 }

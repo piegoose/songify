@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.piegoose.songify.domain.crud.dto.AlbumDto;
 import pl.piegoose.songify.domain.crud.dto.AlbumDtoWithArtistsAndSongs;
+
+import pl.piegoose.songify.domain.crud.dto.AlbumInfo;
 import pl.piegoose.songify.domain.crud.dto.AlbumRequestDto;
 import pl.piegoose.songify.domain.crud.dto.ArtistDto;
 import pl.piegoose.songify.domain.crud.dto.ArtistRequestDto;
@@ -32,7 +34,7 @@ public class SongifyCrudeFacade {
     private final ArtistRetriever artistRetriever;
     private final AlbumRetriever albumRetriever;
     private final ArtistDeleter artistDeleter;
-    private final ArtistAssingner artistAssingner;
+    private final ArtistAssigner artistAssigner;
     private final ArtistUpdater artistUpdater;
 
     public ArtistDto addArtistsWithDefaultAlbumAndSong(ArtistRequestDto dto) {
@@ -43,7 +45,7 @@ public class SongifyCrudeFacade {
         return artistUpdater.updateArtistNameById(artistId, name);
     }
 
-    public AlbumDtoWithArtistsAndSongs findAlbumByIdWithArtistsAndSongs(Long id) {
+    public AlbumInfo findAlbumByIdWithArtistsAndSongs(Long id) {
         return albumRetriever.findAlbumByIdWithArtistsAndSongs(id);
     }
 
@@ -56,11 +58,11 @@ public class SongifyCrudeFacade {
     }
 
     public AlbumDto addAlbumWithSong(AlbumRequestDto dto) {
-        return albumAdder.addAlbum(dto.songId(), dto.title(), dto.releaseDate());
+        return albumAdder.addAlbum(dto.songIds(), dto.title(), dto.releaseDate());
     }
 
     public void addArtistsToAlbum(Long artistsId, Long albumId) {
-        artistAssingner.addArtistToAlbum(artistsId, albumId);
+        artistAssigner.addArtistToAlbum(artistsId,albumId);
 
     }
 
@@ -68,13 +70,13 @@ public class SongifyCrudeFacade {
         return songAdder.addSong(dto);
     }
 
-    public Set<ArtistDto> findAllArtist(final Pageable unpaged) {
-        return artistRetriever.findAllArtists();
+    public Set<ArtistDto> findAllArtists(final Pageable unpaged) {
+        return artistRetriever.findAllArtists(unpaged);
 
     }
 
-    public void deleteArtistByIdWithArtistsAndSongs(Long artistId) {
-        artistDeleter.deleteArtistByIdWithArtistsAndSongs(artistId);
+    public void deleteArtistByIdWithAlbumsAndSongs(Long artistId) {
+        artistDeleter.deleteArtistByIdWithAlbumsAndSongs(artistId);
     }
 
     public List<SongDto> findAllSongs(Pageable pageable) {
@@ -124,4 +126,21 @@ public class SongifyCrudeFacade {
     public SongDto findSongDtoByIdSong(Long id) {
         return songRetriever.findSongDtoById(id);
     }
+
+    public Set<AlbumDto> findAlbumsByArtistId(Long artistId) {
+       return albumRetriever.findAlbumsDtoByArtistId(artistId);
+    }
+
+    long countArtistsByAlbumId(final Long albumId) {
+        return albumRetriever.countArtistsByAlbumId(albumId);
+    }
+
+    AlbumDto findAlbumById(final Long albumId) {
+     return   albumRetriever.findDtoById(albumId);
+    }
+
+    Set<AlbumDto> findAllAlbums() {
+       return albumRetriever.findAll();
+    }
+
 }

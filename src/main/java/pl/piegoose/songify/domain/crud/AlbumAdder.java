@@ -6,30 +6,34 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.piegoose.songify.domain.crud.dto.AlbumDto;
 
 import java.time.Instant;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 @Transactional
 class AlbumAdder {
 
-    private final SongRetriever songRetriver;
+    private final SongRetriever songRetriever;
     private final AlbumRepository albumRepository;
 
-    AlbumDto addAlbum(final Long songId, final String title, final Instant instant) {
-        Song song = songRetriver.findSongById(songId);
+    AlbumDto addAlbum(final Set<Long> songIds, final String title, final Instant instant) {
+     //   Song song = songRetriever.findSongById(songIds);
+        Set<Song> songs = songIds.stream()
+                .map(songRetriever::findSongById)
+                .collect(Collectors.toSet());
+
         Album album = new Album();
         album.setTitle(title);
-        album.addSongToAlbum(song);
+        album.addSongsToAlbum(songs);
         album.setReleaseDate(instant);
         Album savedAlbum = albumRepository.save(album);
-        return new AlbumDto(savedAlbum.getId(), savedAlbum.getTitle());
+        return new AlbumDto(savedAlbum.getId(), savedAlbum.getTitle(), savedAlbum.getSongsIds());
     }
-
     Album addAlbum(final String title, final Instant instant) {
         Album album = new Album();
         album.setTitle(title);
         album.setReleaseDate(instant);
         return albumRepository.save(album);
-
     }
 }
