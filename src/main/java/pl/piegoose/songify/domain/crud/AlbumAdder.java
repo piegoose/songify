@@ -22,7 +22,7 @@ class AlbumAdder {
         Set<Song> songs = songIds.stream()
                 .map(songRetriever::findSongById)
                 .collect(Collectors.toSet());
-
+    // todo write refactor songRetriever.findAllSongsByIds(songIds);
         Album album = new Album();
         album.setTitle(title);
         album.addSongsToAlbum(songs);
