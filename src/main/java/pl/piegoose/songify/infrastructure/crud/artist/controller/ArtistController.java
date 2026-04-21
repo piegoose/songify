@@ -28,7 +28,6 @@ import java.util.Set;
 class ArtistController {
     private final SongifyCrudeFacade songifyCrudeFacade;
 
-
     @PostMapping
     ResponseEntity<ArtistDto> postArtist(@RequestBody ArtistRequestDto artistRequestDto) {
         ArtistDto artistDto = songifyCrudeFacade.addArtist(artistRequestDto);
@@ -59,12 +58,12 @@ class ArtistController {
         ArtistDto artistDto = songifyCrudeFacade.updateArtistNameById(artistsId, artistUpdateRequestDto.newArtistsName());
         return ResponseEntity.ok(artistDto);
     }
+
     @PostMapping("/album/song")
-    ResponseEntity<ArtistDto> addArtistWithDefaultAlbumAndSong(@RequestBody ArtistRequestDto artistRequestDto){
+    ResponseEntity<ArtistDto> addArtistWithDefaultAlbumAndSong(@RequestBody ArtistRequestDto artistRequestDto) {
         ArtistDto artistDto = songifyCrudeFacade.addArtistsWithDefaultAlbumAndSong(artistRequestDto);
         return ResponseEntity.ok(artistDto);
     }
-
 
 
 }
