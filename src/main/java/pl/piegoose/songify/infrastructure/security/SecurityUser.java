@@ -6,8 +6,9 @@ import pl.piegoose.songify.domain.usercrud.User;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
-class SecurityUser implements UserDetails {
+public class SecurityUser implements UserDetails {
 
     private final User user;
 
@@ -20,6 +21,10 @@ class SecurityUser implements UserDetails {
         return Arrays.stream(user.getAuthorities())
                 .map(authority -> (GrantedAuthority) () -> authority)
                 .toList();
+    }
+
+    public List<String> getAuthorietiesAsString(){
+        return Arrays.stream(user.getAuthorities()).toList();
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 import pl.piegoose.songify.domain.usercrud.User;
@@ -13,18 +14,18 @@ import pl.piegoose.songify.domain.usercrud.UserRepository;
 import java.util.List;
 
 @Slf4j
-@Component
 @AllArgsConstructor
 class UserDetailsServiceImpl implements UserDetailsManager {
 
     private static final String DEFAULT_USER_ROLE = "ROLE_USER";
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findFirstByEmail(username)
-                .map(user -> new SecurityUser(user))
+                .map(SecurityUser::new)
                 .orElseThrow(() -> new UsernameNotFoundException("not found user: " + username));
     }
 
