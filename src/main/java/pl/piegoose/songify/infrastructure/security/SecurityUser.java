@@ -21,11 +21,14 @@ public class SecurityUser implements UserDetails {
         return Arrays.stream(user.getAuthorities())
                 .map(authority -> (GrantedAuthority) () -> authority)
                 .toList();
+
     }
 
     public List<String> getAuthorietiesAsString(){
         return Arrays.stream(user.getAuthorities()).toList();
     }
+
+    
 
     @Override
     public String getPassword() {

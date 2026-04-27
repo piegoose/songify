@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import pl.piegoose.songify.infrastructure.security.SecurityUser;
 
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -25,14 +31,19 @@ class JwtTokenGenerator {
     private final AuthenticationManager authenticationManager;
     private final Clock clock;
     private final JwtConfigurationProperites properties;
+    private final KeyPair keyPair;
 
-    public String authenticateAndGenerateToken(String username, String password) {
+    public String authenticateAndGenerateToken(String username, String password) throws NoSuchAlgorithmException {
         UsernamePasswordAuthenticationToken authenticate = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticate);
         SecurityUser user = (SecurityUser) authentication.getPrincipal();
         Instant issuedAt = LocalDateTime.now(clock).toInstant(ZoneOffset.UTC);
         Instant expireAt = issuedAt.plus(Duration.ofMinutes(properties.expirationMinutes()));
-        Algorithm algorithm = Algorithm.HMAC256(properties.secret());
+
+
+
+        Algorithm algorithm = Algorithm.RSA256(null, (RSAPrivateKey)keyPair.getPrivate());
+        //Algorithm algorithm = Algorithm.HMAC256(properties.secret());
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuedAt(issuedAt)
